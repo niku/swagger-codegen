@@ -22,7 +22,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
             "{:tesla, \"~> 0.5.0\"}",
-            "{:poison, \">= 1.0.0\"}"
+            "{:poison, \">= 1.0.0\"}",
+            "{:ecto, \"~> 2.1\"}"
     );
 
 
@@ -297,6 +298,17 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         return toModelName(type);
     }
 
+    @Override
+    public String escapeQuotationMark(String input) {
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // no need to escape as Elixir does not support multi-line comments
+        return input;
+    }
+
     class ExtendedCodegenOperation extends CodegenOperation {
         private List<String> pathTemplateNames = new ArrayList<String>();
         private String replacedPathName;
@@ -373,16 +385,5 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         public void setReplacedPathName(String replacedPathName) {
             this.replacedPathName = replacedPathName;
         }
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        // no need to escape as Elixir does not support multi-line comments
-        return input;
     }
 }
