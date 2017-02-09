@@ -95,14 +95,23 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 "test_helper.exs")
         );
 
+        typeMapping.clear();
+        typeMapping.put("String", ":string");
+        typeMapping.put("Integer", ":integer");
+        typeMapping.put("Long", ":integer");
+        typeMapping.put("DateTime", ":naive_datetime");
+        typeMapping.put("Boolean", ":boolean");
+
         /**
          * Language Specific Primitives.  These types will not trigger imports by
          * the client generator
          */
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
-                        "Type1",      // replace these with your types
-                        "Type2")
+                        ":string",
+                        ":integer",
+                        ":native_datetime",
+                        ":boolean")
         );
     }
 
@@ -269,7 +278,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
             Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
+            return "{:array, " + getTypeDeclaration(inner) + "}";
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
