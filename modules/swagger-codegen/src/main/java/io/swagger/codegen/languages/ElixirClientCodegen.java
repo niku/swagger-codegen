@@ -267,6 +267,10 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         return snakeCase(name);
     }
 
+    String modelPrefix() {
+        return modulized((String) additionalProperties.get("appName")) + ".Model";
+    }
+
     /**
      * Optional - type declaration.  This is a String which is used by the templates to instantiate your
      * types.  There is typically special handling for different property types
@@ -284,7 +288,12 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             Property inner = mp.getAdditionalProperties();
             return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
-        return super.getTypeDeclaration(p);
+        String typeDeclaration = super.getTypeDeclaration(p);
+        if(typeDeclaration.startsWith(":")) { // Is it atom?
+            return typeDeclaration;
+        } else { // or as CustomType?
+            return "{:map, " + modelPrefix() + "." + typeDeclaration + "}";
+        }
     }
 
     /**
