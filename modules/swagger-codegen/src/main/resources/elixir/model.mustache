@@ -5,6 +5,8 @@ defmodule {{#modulized}}{{appName}}{{/modulized}}.Model.{{classname}} do
 
   use Ecto.Schema
 
+  @primary_key false
+
 {{#models}}
 {{#model}}
   schema "{{#underscored}}{{name}}{{/underscored}}" do
