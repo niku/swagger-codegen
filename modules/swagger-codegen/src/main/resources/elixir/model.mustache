@@ -14,6 +14,12 @@ defmodule {{#modulized}}{{appName}}{{/modulized}}.Model.{{classname}} do
     field :{{#underscored}}{{name}}{{/underscored}}, {{datatype}}
 {{/vars}}
   end
+
+  def changeset({{#underscored}}{{name}}{{/underscored}}, params \\ %{}) do
+    {{#underscored}}{{name}}{{/underscored}}
+    |> Ecto.Changeset.cast(params, [{{#vars}}{{^-first}}, {{/-first}}:{{#underscored}}{{name}}{{/underscored}}{{/vars}}])
+    # TODO add validations
+  end
 {{/model}}
 {{/models}}
 end
