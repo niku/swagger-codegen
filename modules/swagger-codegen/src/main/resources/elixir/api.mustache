@@ -21,6 +21,8 @@ defmodule {{#modulized}}{{appName}}{{/modulized}}.Api.{{classname}} do
     opts = []
     options = method ++ url ++ params ++ opts
 
+    # TODO validate with using Model?
+  
     request(options)
   end
     {{/operation}}
